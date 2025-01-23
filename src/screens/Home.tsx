@@ -16,7 +16,7 @@ import {useOnRefresh} from '../hooks/useRefresh';
 import {ProgressBar} from '../components/ProgressBar';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function Home({navigation}: any) {
+export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
 
   const {onRefresh, refreshing} = useOnRefresh(() => {
@@ -68,16 +68,18 @@ export default function Home({navigation}: any) {
   useEffect(() => {
     // Create a handler to block the back button
     const onBackPress = () => {
-      Alert.alert(
-        'Keluar',
-        'Apakah kamu yakin ingin keluar?',
-        [
-          {text: 'Batalkan', style: 'cancel'},
-          {text: 'Ya', onPress: () => BackHandler.exitApp()},
-        ],
-        {cancelable: false},
-      );
-      return true; // Return true to prevent the default back action
+      if (route.name === 'Home') {
+        Alert.alert(
+          'Keluar',
+          'Apakah kamu yakin ingin keluar?',
+          [
+            {text: 'Batalkan', style: 'cancel'},
+            {text: 'Ya', onPress: () => BackHandler.exitApp()},
+          ],
+          {cancelable: false},
+        );
+        return true; // Return true to prevent the default back action
+      }
     };
 
     // Add back handler listener
@@ -116,7 +118,7 @@ export default function Home({navigation}: any) {
               gap: 5,
               alignItems: 'center',
             }}>
-            <FontAwesome5Icon name='search' color={'gray'} size={15} />
+            <FontAwesome5Icon name="search" color={'gray'} size={15} />
             <TextInput
               placeholder="Cari disini..."
               placeholderTextColor={'gray'}
@@ -124,7 +126,9 @@ export default function Home({navigation}: any) {
             />
           </View>
           <TouchableOpacity
-            onPress={() => ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)}
+            onPress={() =>
+              ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
+            }
             style={{
               width: width * 0.1,
               height: height * 0.05,
@@ -136,7 +140,9 @@ export default function Home({navigation}: any) {
             <FontAwesome5Icon name="envelope" size={20} color={'black'} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)}
+            onPress={() =>
+              ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
+            }
             style={{
               width: width * 0.1,
               height: height * 0.05,

@@ -33,7 +33,7 @@ export default function PaymentConfirmation({navigation, route}: any) {
           textAlign: 'center',
           marginTop: 50,
         }}>
-        Anda akan berdonasi sebesar {'\n'}Rp {formatThousand(amount)}
+        Anda akan berdonasi sebesar {'\n'}Rp {formatThousand(amount || 0)}
       </Text>
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         {paymentMethod == 'bsi' && (
