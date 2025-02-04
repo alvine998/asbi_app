@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {ProgressBar} from '../../components/ProgressBar';
+import BackButton from '../../components/BackButton';
 
 export default function DetailDonation({navigation, route}: any) {
   const {thumbnail, title, raised, target} = route.params;
@@ -16,16 +17,7 @@ export default function DetailDonation({navigation, route}: any) {
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={{padding: 20, paddingBottom: 100}}>
         {/* Back Button */}
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-          }}>
-          <FontAwesome5Icon name="chevron-left" size={20} />
-          <Text style={{color: 'black', fontSize: 20}}>Kembali</Text>
-        </TouchableOpacity>
+        <BackButton navigation={navigation} />
 
         {/* Detail */}
         <View style={{marginTop: 10}}>

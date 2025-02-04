@@ -4,16 +4,43 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {formatThousand} from '../../lib/utils';
 
+interface Payload {
+  name: string;
+  phone: string;
+  email: string;
+}
+
 export default function PaymentDonation({navigation}: any) {
   const [amount, setAmount] = useState<string>('');
+  const [anon, setAnon] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<string>('bsi');
+  const [payload, setPayload] = useState<Payload>({
+    name: '',
+    phone: '',
+    email: '',
+  });
+
+  const handleChange = (e: any, name: string) => {
+    setPayload({
+      ...payload,
+      [name]: e,
+    });
+  };
 
   const handlePayment = () => {
+    let amountFee = +amount?.replaceAll(',', '');
+    if (amountFee < 10000) {
+      return Alert.alert('Minimal Donasi Rp. 10.000');
+    }
+    if (!anon && (!payload.name || !payload.phone || !payload.email)) {
+      return Alert.alert('Lengkapi Data Informasi Donatur');
+    }
     navigation.navigate('PaymentConfirmation', {amount, paymentMethod});
   };
   return (
@@ -64,7 +91,7 @@ export default function PaymentDonation({navigation}: any) {
                   setAmount(formatThousand(e));
                 }}
               />
-              {paymentMethod === 'bsi' || paymentMethod === 'mandiri' ? (
+              {+amount?.replaceAll(',', '') < 10000 ? (
                 <Text style={{color: 'red', fontSize: 12, marginTop: 5}}>
                   * Minimal Rp 10.000
                 </Text>
@@ -86,11 +113,14 @@ export default function PaymentDonation({navigation}: any) {
                 borderRadius: 10,
                 paddingLeft: 10,
                 marginTop: 10,
+                backgroundColor: anon ? '#dfdfdf' : '#fff',
               }}>
               <TextInput
+                readOnly={anon}
                 placeholder="Masukkan Nama"
                 placeholderTextColor={'gray'}
                 style={{color: 'black'}}
+                onChangeText={e => handleChange(e, 'name')}
               />
             </View>
 
@@ -102,15 +132,19 @@ export default function PaymentDonation({navigation}: any) {
                 borderRadius: 10,
                 paddingLeft: 10,
                 marginTop: 10,
+                backgroundColor: anon ? '#dfdfdf' : '#fff',
               }}>
               <TextInput
+                readOnly={anon}
                 placeholder="No Telepon"
                 placeholderTextColor={'gray'}
                 style={{color: 'black'}}
                 keyboardType="phone-pad"
                 maxLength={13}
+                onChangeText={e => handleChange(e, 'phone')}
               />
             </View>
+
             <View
               style={{
                 width: '100%',
@@ -119,15 +153,47 @@ export default function PaymentDonation({navigation}: any) {
                 borderRadius: 10,
                 paddingLeft: 10,
                 marginTop: 10,
+                backgroundColor: anon ? '#dfdfdf' : '#fff',
               }}>
               <TextInput
+                readOnly={anon}
                 placeholder="Email"
                 placeholderTextColor={'gray'}
                 style={{color: 'black'}}
+                onChangeText={e => handleChange(e, 'email')}
               />
+            </View>
+
+            {/* Check Anonymous */}
+            <View
+              style={{
+                marginTop: 10,
+                paddingLeft: 10,
+                flexDirection: 'row',
+                gap: 10,
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setAnon(!anon);
+                }}>
+                {anon ? (
+                  <FontAwesome5Icon
+                    name="check-square"
+                    size={20}
+                    color={'green'}
+                  />
+                ) : (
+                  <FontAwesome5Icon name="square" size={20} />
+                )}
+              </TouchableOpacity>
+              <Text style={{fontSize: 12}}>
+                Saya tidak ingin mencantumkan informasi
+              </Text>
             </View>
           </View>
 
+          {/* Payment Methods */}
           <View style={{marginTop: 50}}>
             <Text style={{fontSize: 16, fontWeight: '700'}}>
               Metode Pembayaran
