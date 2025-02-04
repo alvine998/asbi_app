@@ -17,6 +17,8 @@ import {ProgressBar} from '../components/ProgressBar';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import DonationCard from '../components/DonationCard';
 import WishCard from '../components/WishCard';
+import BannerSlide from '../components/BannerSlide';
+import {banners} from '../data/dummyBanner';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
@@ -154,7 +156,7 @@ export default function Home({navigation, route}: any) {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <FontAwesome5Icon name="user-circle" size={20} color={'black'} />
+            <FontAwesome5Icon name="bell" size={20} color={'black'} />
           </TouchableOpacity>
         </View>
 
@@ -222,6 +224,7 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => navigation.navigate('ListInfaq')}
               style={{justifyContent: 'center', alignItems: 'center'}}>
               <FontAwesome5Icon
                 name="praying-hands"
@@ -232,6 +235,7 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => navigation.navigate('ListSedekah')}
               style={{justifyContent: 'center', alignItems: 'center'}}>
               <FontAwesome5Icon
                 name="hand-holding-heart"
@@ -242,6 +246,7 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => navigation.navigate('ListZakat')}
               style={{justifyContent: 'center', alignItems: 'center'}}>
               <FontAwesome5Icon name="handshake" size={40} color={'green'} />
               <Text>Zakat</Text>
@@ -327,6 +332,21 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
           </ScrollView>
         </View>
+
+        {/* Banner */}
+        {/* <View style={{padding: 20}}>
+        <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              textAlign: 'left',
+              marginTop: 20,
+              color: 'black',
+            }}>
+            Donasi Terkini
+          </Text>
+          <BannerSlide data={banners} />
+        </View> */}
 
         {/* Wakaf & Zakat */}
         <View style={{padding: 20}}>

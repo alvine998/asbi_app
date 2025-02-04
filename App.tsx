@@ -16,6 +16,7 @@ import ListDonation from './src/screens/donation/ListDonation';
 import ListInfaq from './src/screens/donation/ListInfaq';
 import ListSedekah from './src/screens/donation/ListSedekah';
 import ListZakat from './src/screens/donation/ListZakat';
+import BottomTabs from './src/components/BottomTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ const RootStack = () => {
       initialRouteName="Splash"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" component={BottomTabs} />
       <Stack.Screen name="Account" component={Account} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Registration" component={Registration} />
