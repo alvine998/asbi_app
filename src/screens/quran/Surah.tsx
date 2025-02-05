@@ -4,15 +4,18 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BackButton from '../../components/BackButton';
 import {ISurah} from '../../types/surah';
 import axios from 'axios';
 import {useOnRefresh} from '../../hooks/useRefresh';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function Surah({navigation}: any) {
   const [surahs, setSurahs] = useState<ISurah[]>([]);
+  const [search, setSearch] = useState<string>('');
 
   const getSurahs = async () => {
     try {
@@ -33,11 +36,35 @@ export default function Surah({navigation}: any) {
   return (
     <View style={{padding: 20}}>
       <BackButton navigation={navigation} />
+      <View
+        style={{
+          width: '100%',
+          height: 50,
+          borderWidth: 1,
+          borderRadius: 10,
+          paddingLeft: 20,
+          flexDirection: 'row',
+          gap: 5,
+          alignItems: 'center',
+        }}>
+        <FontAwesome5Icon name="search" color={'gray'} size={15} />
+        <TextInput
+          placeholder="Cari disini..."
+          placeholderTextColor={'gray'}
+          style={{color: 'black', width: '100%'}}
+          onChangeText={(e) => {
+            if (e === '') {
+              return getSurahs();
+            }
+            setSurahs(surahs.filter((s) => s.namaLatin.toLowerCase().includes(e.toLowerCase())))
+          }}
+        />
+      </View>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        contentContainerStyle={{paddingBottom: 100}}>
+        contentContainerStyle={{marginTop: 20, paddingBottom: 150}}>
         {surahs.map((surah: ISurah, index: number) => (
           <TouchableOpacity
             onPress={() => {
