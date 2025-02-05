@@ -28,7 +28,12 @@ export default function DonationCard({data, navigation}: Props) {
           backgroundColor: 'white',
           elevation: 3,
         }}>
-        <Image source={data.thumbnail} style={{width: 250, height: 150}} />
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            source={{uri: String(data.thumbnail)}}
+            style={{width: 150, height: 150, resizeMode: 'cover'}}
+          />
+        </View>
         <Text
           style={{
             fontSize: 20,

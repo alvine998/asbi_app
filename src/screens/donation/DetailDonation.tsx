@@ -22,12 +22,13 @@ export default function DetailDonation({navigation, route}: any) {
         {/* Detail */}
         <View style={{marginTop: 10}}>
           <Image
-            source={thumbnail}
+            source={{uri: String(thumbnail)}}
             style={{
               borderWidth: 1,
               borderRadius: 10,
               width: '100%',
-              height: 250,
+              height: 350,
+              resizeMode: 'cover',
             }}
           />
 

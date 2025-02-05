@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {useOnRefresh} from '../hooks/useRefresh';
+import {useOnRefresh} from '../../hooks/useRefresh';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Account() {
@@ -24,7 +24,7 @@ export default function Account() {
       href: 'privacy',
     },
     {
-      name: 'Bantuan',
+      name: 'Pusat Bantuan',
       href: 'help',
     },
     {
@@ -67,23 +67,36 @@ export default function Account() {
             <TouchableOpacity
               key={index}
               style={{
-                marginHorizontal: 20,
-                marginVertical: 10,
+                marginHorizontal: 10,
+                // marginVertical: 10,
+                marginTop: tab.href === 'logout' ? 20 : 0,
                 padding: 10,
-                borderWidth: 1,
+                borderBottomWidth: 1,
                 borderRadius: 10,
                 backgroundColor: tab.href === 'logout' ? 'red' : 'white',
-                flexDirection:"row",
-                justifyContent:"space-between",
-                alignItems:"center"
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}>
-              <Text style={{fontSize: 15, color: tab.href === 'logout' ? 'white' : 'black'}}>{tab.name}</Text>
-              <IconFA5 name="chevron-right" size={15} color={tab.href === 'logout' ? 'white' : 'black'} />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: tab.href === 'logout' ? 'white' : 'black',
+                }}>
+                {tab.name}
+              </Text>
+              <IconFA5
+                name="chevron-right"
+                size={15}
+                color={tab.href === 'logout' ? 'white' : 'black'}
+              />
             </TouchableOpacity>
           ))}
         </View>
 
-        <Text style={{fontSize: 12, textAlign:"center", marginTop: 20}}>Versi 0.1.1</Text>
+        <Text style={{fontSize: 12, textAlign: 'center', marginTop: 20}}>
+          Versi 0.1.1
+        </Text>
       </ScrollView>
     </View>
   );

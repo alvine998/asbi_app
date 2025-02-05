@@ -3,5 +3,5 @@ export interface IDonation {
     title: string;
     target: number;
     raised: number;
-    thumbnail: any;
+    thumbnail: string;
 }

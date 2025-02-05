@@ -10,6 +10,7 @@ import {
   BackHandler,
   Alert,
   ToastAndroid,
+  Linking,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useOnRefresh} from '../hooks/useRefresh';
@@ -19,6 +20,8 @@ import DonationCard from '../components/DonationCard';
 import WishCard from '../components/WishCard';
 import BannerSlide from '../components/BannerSlide';
 import {banners} from '../data/dummyBanner';
+import Footer from '../components/Footer';
+import {datas} from '../data/dummyDonation';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
@@ -26,30 +29,6 @@ export default function Home({navigation, route}: any) {
   const {onRefresh, refreshing} = useOnRefresh(() => {
     // console.log('refreshing');
   });
-
-  const datas = [
-    {
-      id: 1,
-      title: 'Donasi 1',
-      target: 5000,
-      raised: 1000,
-      thumbnail: require('../assets/images/logo.jpeg'),
-    },
-    {
-      id: 2,
-      title: 'Donasi 2',
-      target: 3000,
-      raised: 1000,
-      thumbnail: require('../assets/images/logo.jpeg'),
-    },
-    {
-      id: 3,
-      title: 'Donasi 3',
-      target: 10000,
-      raised: 1000,
-      thumbnail: require('../assets/images/logo.jpeg'),
-    },
-  ];
 
   const wishes = [
     {
@@ -190,7 +169,7 @@ export default function Home({navigation, route}: any) {
               left: 0,
               borderTopRightRadius: 50,
             }}></View>
-          <Text
+          {/* <Text
             style={{
               fontSize: 20,
               fontWeight: 'bold',
@@ -199,10 +178,14 @@ export default function Home({navigation, route}: any) {
               color: 'black',
             }}>
             Selamat Datang di Donasiqu
-          </Text>
+          </Text> */}
           <Image
-            source={require('../assets/images/donate.png')}
-            style={{width: 300, height: 300}}
+            source={{
+              uri: 'https://res.cloudinary.com/dzrthkexn/image/upload/v1738692091/donasiqu/fvmjvx6hmh4p33xdyyvj.png',
+            }}
+            width={400}
+            height={300}
+            style={{width: 350, height: 250}}
           />
         </View>
 
@@ -210,83 +193,107 @@ export default function Home({navigation, route}: any) {
         <View>
           <View
             style={{
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
               flexDirection: 'row',
-              gap: 40,
               marginTop: 20,
+              paddingHorizontal: 40,
             }}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ListDonation')}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon name="donate" size={40} color={'green'} />
-              <Text>Donasi</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ListInfaq')}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon
-                name="praying-hands"
-                size={40}
-                color={'green'}
-              />
-              <Text>Infaq</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ListSedekah')}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon
-                name="hand-holding-heart"
-                size={40}
-                color={'green'}
-              />
-              <Text>Sedekah</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ListZakat')}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon name="handshake" size={40} color={'green'} />
-              <Text>Zakat</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-              gap: 40,
-              marginTop: 20,
-            }}>
-            <TouchableOpacity
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon name="quran" size={40} color={'green'} />
-              <Text>Qur'an</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon name="pray" size={40} color={'green'} />
-              <Text>Do'a</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome5Icon name="child" size={40} color={'green'} />
-              <Text>Harapan</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
+            <View
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
+                flexDirection: 'column',
+                gap: 20,
               }}>
-              <FontAwesome5Icon name="mosque" size={40} color={'green'} />
-              <Text>Waktu Shalat</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ListDonation')}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="donate" size={40} color={'green'} />
+                <Text>Donasi</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ListSurah')}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="quran" size={40} color={'green'} />
+                <Text>Qur'an</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 20,
+                marginLeft: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ListInfaq')}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon
+                  name="praying-hands"
+                  size={40}
+                  color={'green'}
+                />
+                <Text>Infaq</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="pray" size={40} color={'green'} />
+                <Text>Do'a</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 20,
+                marginLeft: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ListSedekah')}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon
+                  name="hand-holding-heart"
+                  size={40}
+                  color={'green'}
+                />
+                <Text>Sedekah</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="child" size={40} color={'green'} />
+                <Text>Harapan</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 20,
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ListZakat')}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="handshake" size={40} color={'green'} />
+                <Text>Zakat</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5Icon name="mosque" size={40} color={'green'} />
+                <Text>Waktu Shalat</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -348,49 +355,6 @@ export default function Home({navigation, route}: any) {
           <BannerSlide data={banners} />
         </View> */}
 
-        {/* Wakaf & Zakat */}
-        <View style={{padding: 20}}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              textAlign: 'left',
-              marginTop: 20,
-              color: 'black',
-            }}>
-            Wakaf & Zakat
-          </Text>
-          <ScrollView horizontal>
-            {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} />
-            ))}
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('ListZakat');
-              }}
-              style={{
-                margin: 10,
-                borderWidth: 1,
-                borderRadius: 10,
-                padding: 10,
-                backgroundColor: 'white',
-                elevation: 3,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-              }}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}>
-                Lihat Selengkapnya
-              </Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
-
         {/* Rekomendasi Untukmu */}
         <View style={{padding: 20}}>
           <Text
@@ -434,7 +398,7 @@ export default function Home({navigation, route}: any) {
           </ScrollView>
         </View>
 
-        {/* Harapan Kami */}
+        {/* Wakaf & Zakat */}
         <View style={{padding: 20}}>
           <Text
             style={{
@@ -442,6 +406,48 @@ export default function Home({navigation, route}: any) {
               fontWeight: 'bold',
               textAlign: 'left',
               marginTop: 20,
+              color: 'black',
+            }}>
+            Wakaf & Zakat
+          </Text>
+          <ScrollView horizontal>
+            {datas?.map((data, index) => (
+              <DonationCard data={data} key={index} navigation={navigation} />
+            ))}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ListZakat');
+              }}
+              style={{
+                margin: 10,
+                borderWidth: 1,
+                borderRadius: 10,
+                padding: 10,
+                backgroundColor: 'white',
+                elevation: 3,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+              }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                Lihat Selengkapnya
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+
+        {/* Harapan Kami */}
+        <View style={{padding: 20}}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              textAlign: 'left',
               color: 'black',
             }}>
             Harapan Kami
@@ -452,6 +458,9 @@ export default function Home({navigation, route}: any) {
             ))}
           </ScrollView>
         </View>
+
+        {/* Footer */}
+        <Footer />
       </ScrollView>
     </View>
   );
