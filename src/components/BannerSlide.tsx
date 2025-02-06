@@ -42,7 +42,7 @@ export default function BannerSlide({data}: Props) {
             alignItems: 'center',
             backgroundColor: index % 2 === 0 ? 'white' : 'white',
           }}>
-          <Image source={{uri: String(item.url)}} style={{width: '92%', height: '70%', objectFit: 'fill'}} />
+          <Image source={{uri: String(item.url)}} style={{width: '100%', height: '100%', objectFit: 'fill'}} />
         </View>
       ))}
     </ScrollView>

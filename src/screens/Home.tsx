@@ -300,6 +300,11 @@ export default function Home({navigation, route}: any) {
           </View>
         </View>
 
+        {/* Banner */}
+        <View style={{paddingVertical: 20}}>
+          <BannerSlide data={banners} />
+        </View>
+
         {/* Donasi Terkini */}
         <View style={{padding: 20}}>
           <Text
@@ -342,21 +347,6 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
           </ScrollView>
         </View>
-
-        {/* Banner */}
-        {/* <View style={{padding: 20}}>
-        <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              textAlign: 'left',
-              marginTop: 20,
-              color: 'black',
-            }}>
-            Donasi Terkini
-          </Text>
-          <BannerSlide data={banners} />
-        </View> */}
 
         {/* Rekomendasi Untukmu */}
         <View style={{padding: 20}}>
