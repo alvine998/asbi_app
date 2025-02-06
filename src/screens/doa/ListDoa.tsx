@@ -139,7 +139,7 @@ export default function ListDoa({navigation}: any) {
             flexDirection: 'row',
             gap: 5,
             alignItems: 'center',
-            marginTop: 20
+            marginVertical: 20
           }}>
           <FontAwesome5Icon name="search" color={'gray'} size={15} />
           <TextInput
