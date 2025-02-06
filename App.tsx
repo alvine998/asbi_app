@@ -17,9 +17,11 @@ import ListInfaq from './src/screens/donation/ListInfaq';
 import ListSedekah from './src/screens/donation/ListSedekah';
 import ListZakat from './src/screens/donation/ListZakat';
 import BottomTabs from './src/components/BottomTabs';
-import CreateDonation from './src/screens/donation/CreateDonation';
+import CreateDonation from './src/screens/donation/create/CreateDonation';
 import Surah from './src/screens/quran/Surah';
 import Ayah from './src/screens/quran/Ayah';
+import ChooseCategory from './src/screens/donation/create/ChooseCategory';
+import ConfirmCreateDonation from './src/screens/donation/create/ConfirmCreateDonation';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +44,13 @@ const RootStack = () => {
       <Stack.Screen name="ListZakat" component={ListZakat} />
       <Stack.Screen name="DetailDonation" component={DetailDonation} />
       <Stack.Screen name="PaymentDonation" component={PaymentDonation} />
+      {/* Create Donation */}
+      <Stack.Screen name="ChooseCategory" component={ChooseCategory} />
       <Stack.Screen name="CreateDonation" component={CreateDonation} />
+      <Stack.Screen
+        name="ConfirmCreateDonation"
+        component={ConfirmCreateDonation}
+      />
 
       {/* Quran */}
       <Stack.Screen name="ListSurah" component={Surah} />

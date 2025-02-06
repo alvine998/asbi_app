@@ -280,7 +280,9 @@ export default function Home({navigation, route}: any) {
                 gap: 20,
               }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('ListZakat')}
+                onPress={() =>
+                  ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
+                }
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon name="handshake" size={40} color={'green'} />
                 <Text>Zakat</Text>

@@ -4,7 +4,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import ListDonation from '../screens/donation/ListDonation';
 import Account from '../screens/account/Account';
 import {Text, TouchableOpacity, View} from 'react-native';
-import CreateDonation from '../screens/donation/CreateDonation';
+import ChooseCategory from '../screens/donation/create/ChooseCategory';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +17,7 @@ export default function BottomTabs({navigation}: any) {
         alignItems: 'center',
       }}
       onPress={() => {
-        navigation.navigate('CreateDonation');
+        navigation.navigate('ChooseCategory');
       }}>
       <View
         style={{
@@ -59,8 +59,8 @@ export default function BottomTabs({navigation}: any) {
         }}
       />
       <Tab.Screen
-        name="CreateDonation"
-        component={CreateDonation}
+        name="ChooseCategory"
+        component={ChooseCategory}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({color, size}) => (
