@@ -240,6 +240,7 @@ export default function Home({navigation, route}: any) {
               </TouchableOpacity>
 
               <TouchableOpacity
+                onPress={() => navigation.navigate('ListDoa')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon name="pray" size={40} color={'green'} />
                 <Text>Do'a</Text>

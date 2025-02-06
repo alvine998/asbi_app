@@ -22,6 +22,7 @@ import Surah from './src/screens/quran/Surah';
 import Ayah from './src/screens/quran/Ayah';
 import ChooseCategory from './src/screens/donation/create/ChooseCategory';
 import ConfirmCreateDonation from './src/screens/donation/create/ConfirmCreateDonation';
+import ListDoa from './src/screens/doa/ListDoa';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,10 @@ const RootStack = () => {
       {/* Quran */}
       <Stack.Screen name="ListSurah" component={Surah} />
       <Stack.Screen name="ListAyah" component={Ayah} />
+
+      {/* Doa */}
+      <Stack.Screen name="ListDoa" component={ListDoa} />
+
       <Stack.Screen
         name="PaymentConfirmation"
         component={PaymentConfirmation}

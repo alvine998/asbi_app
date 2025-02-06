@@ -16,6 +16,10 @@ export default function Account() {
 
   const tabs = [
     {
+      name: 'Profil Penggalang Dana',
+      href: 'profile',
+    },
+    {
       name: 'Ketentuan Pengguna',
       href: 'terms',
     },

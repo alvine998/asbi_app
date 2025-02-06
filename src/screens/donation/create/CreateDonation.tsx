@@ -1,7 +1,16 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import React, {useState} from 'react';
 import BackButton from '../../../components/BackButton';
 import {formatThousand} from '../../../lib/utils';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function CreateDonation({navigation, route}: any) {
   const [payload, setPayload] = useState<any>();
@@ -11,6 +20,32 @@ export default function CreateDonation({navigation, route}: any) {
       ...payload,
       [name]: name == 'target' ? formatThousand(e) : e,
     });
+  };
+
+  const pickImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.didCancel) return;
+      if (response.errorMessage) {
+        console.error('Image Picker Error:', response.errorMessage);
+        return;
+      }
+      if (response.assets && response.assets.length > 0) {
+        setPayload({...payload, image: response.assets[0]?.uri}); // Save the selected image
+      }
+    });
+  };
+
+  const handlePayment = () => {
+    if (
+      !payload?.title ||
+      !payload?.description ||
+      !payload?.target ||
+      !payload?.days ||
+      !payload?.image
+    ) {
+      return Alert.alert('Lengkapi Data Galang Dana');
+    }
+    navigation.navigate('ConfirmCreateDonation', {payload, category});
   };
   return (
     <View style={{padding: 20, paddingBottom: 100}}>
@@ -173,6 +208,7 @@ export default function CreateDonation({navigation, route}: any) {
           <View style={{marginTop: 20}}>
             <Text style={{marginLeft: 10, color: '#808080'}}>Upload Foto</Text>
             <TouchableOpacity
+              onPress={pickImage}
               style={{
                 width: '100%',
                 height: 40,
@@ -180,30 +216,38 @@ export default function CreateDonation({navigation, route}: any) {
                 alignItems: 'center',
                 marginTop: 5,
                 backgroundColor: '#3dcfcb',
-                justifyContent:"center",
+                justifyContent: 'center',
               }}>
-              <Text style={{marginLeft: 10, color: 'white'}}>
-                Upload Foto
-              </Text>
+              <Text style={{marginLeft: 10, color: 'white'}}>Upload Foto</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Button Next */}
-          <TouchableOpacity
-            onPress={()=>{navigation.navigate('ConfirmCreateDonation', {payload, category})}}
+          {payload?.image && (
+            <Image
+              source={{uri: payload?.image}}
               style={{
                 width: '100%',
-                height: 40,
-                borderRadius: 10,
-                alignItems: 'center',
+                height: 300,
                 marginTop: 20,
-                backgroundColor: '#4CAF50',
-                justifyContent:"center",
-              }}>
-              <Text style={{marginLeft: 10, color: 'white'}}>
-                Selanjutnya
-              </Text>
-            </TouchableOpacity>
+                borderRadius: 10,
+              }}
+            />
+          )}
+
+          {/* Button Next */}
+          <TouchableOpacity
+            onPress={handlePayment}
+            style={{
+              width: '100%',
+              height: 40,
+              borderRadius: 10,
+              alignItems: 'center',
+              marginTop: 20,
+              backgroundColor: '#4CAF50',
+              justifyContent: 'center',
+            }}>
+            <Text style={{marginLeft: 10, color: 'white'}}>Selanjutnya</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
