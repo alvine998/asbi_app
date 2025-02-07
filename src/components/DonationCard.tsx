@@ -5,9 +5,14 @@ import {ProgressBar} from './ProgressBar';
 interface Props {
   navigation: any;
   data: any;
+  size?: 'small' | 'large';
 }
 
-export default function DonationCard({data, navigation}: Props) {
+export default function DonationCard({
+  data,
+  navigation,
+  size = 'large',
+}: Props) {
   return (
     <View>
       <TouchableOpacity
@@ -24,25 +29,31 @@ export default function DonationCard({data, navigation}: Props) {
           margin: 10,
           borderWidth: 1,
           borderRadius: 10,
-          padding: 10,
+          paddingHorizontal: size == 'large' ? 10 : 5,
+          paddingVertical: 10,
           backgroundColor: 'white',
           elevation: 3,
         }}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={{uri: String(data.thumbnail)}}
-            style={{width: 250, height: 250, resizeMode: 'contain'}}
+            style={{
+              width: size == 'large' ? 250 : 100,
+              height: size == 'large' ? 250 : 100,
+              resizeMode: 'contain',
+            }}
           />
         </View>
         <Text
           style={{
-            fontSize: 20,
+            fontSize: size == "small" ? 12 : 16,
             fontWeight: 'bold',
-            textAlign: 'center',
+            textAlign: 'left',
+            marginTop: 10,
           }}>
           {data.title}
         </Text>
-        <ProgressBar reach={data.raised} target={data.target} />
+        <ProgressBar reach={data.raised} target={data.target} size={size} />
       </TouchableOpacity>
     </View>
   );

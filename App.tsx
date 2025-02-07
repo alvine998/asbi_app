@@ -1,5 +1,5 @@
 import {View, Text, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Splash from './src/screens/Splash';
 import Home from './src/screens/Home';
 import Account from './src/screens/account/Account';
@@ -23,10 +23,18 @@ import Ayah from './src/screens/quran/Ayah';
 import ChooseCategory from './src/screens/donation/create/ChooseCategory';
 import ConfirmCreateDonation from './src/screens/donation/create/ConfirmCreateDonation';
 import ListDoa from './src/screens/doa/ListDoa';
+import PrayTime from './src/screens/pray-time/PrayTime';
+import {useLocationStore} from './src/store/locationStore';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
+  const {getLocation} = useLocationStore();
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
   return (
     <Stack.Navigator
       initialRouteName="Splash"
@@ -59,6 +67,9 @@ const RootStack = () => {
 
       {/* Doa */}
       <Stack.Screen name="ListDoa" component={ListDoa} />
+
+      {/* Pray Time */}
+      <Stack.Screen name="PrayTime" component={PrayTime} />
 
       <Stack.Screen
         name="PaymentConfirmation"

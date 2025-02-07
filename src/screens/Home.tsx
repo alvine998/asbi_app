@@ -209,13 +209,13 @@ export default function Home({navigation, route}: any) {
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListDonation')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="donate" size={40} color={'green'} />
+                <FontAwesome5Icon name="donate" size={30} color={'green'} />
                 <Text>Donasi</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListSurah')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="quran" size={40} color={'green'} />
+                <FontAwesome5Icon name="quran" size={30} color={'green'} />
                 <Text>Qur'an</Text>
               </TouchableOpacity>
             </View>
@@ -233,7 +233,7 @@ export default function Home({navigation, route}: any) {
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon
                   name="praying-hands"
-                  size={40}
+                  size={30}
                   color={'green'}
                 />
                 <Text>Infaq</Text>
@@ -242,7 +242,7 @@ export default function Home({navigation, route}: any) {
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListDoa')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="pray" size={40} color={'green'} />
+                <FontAwesome5Icon name="pray" size={30} color={'green'} />
                 <Text>Do'a</Text>
               </TouchableOpacity>
             </View>
@@ -260,7 +260,7 @@ export default function Home({navigation, route}: any) {
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon
                   name="hand-holding-heart"
-                  size={40}
+                  size={30}
                   color={'green'}
                 />
                 <Text>Sedekah</Text>
@@ -268,7 +268,7 @@ export default function Home({navigation, route}: any) {
 
               <TouchableOpacity
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="child" size={40} color={'green'} />
+                <FontAwesome5Icon name="child" size={30} color={'green'} />
                 <Text>Harapan</Text>
               </TouchableOpacity>
             </View>
@@ -285,15 +285,16 @@ export default function Home({navigation, route}: any) {
                   ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
                 }
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="handshake" size={40} color={'green'} />
+                <FontAwesome5Icon name="handshake" size={30} color={'green'} />
                 <Text>Zakat</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => navigation.navigate('PrayTime')}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome5Icon name="mosque" size={40} color={'green'} />
+                <FontAwesome5Icon name="mosque" size={30} color={'green'} />
                 <Text>Waktu Shalat</Text>
               </TouchableOpacity>
             </View>
@@ -312,14 +313,13 @@ export default function Home({navigation, route}: any) {
               fontSize: 20,
               fontWeight: 'bold',
               textAlign: 'left',
-              marginTop: 20,
               color: 'black',
             }}>
             Donasi Terkini
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} />
+              <DonationCard data={data} key={index} navigation={navigation} size='small' />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -338,7 +338,7 @@ export default function Home({navigation, route}: any) {
               }}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 12,
                   fontWeight: 'bold',
                   textAlign: 'center',
                 }}>
@@ -355,14 +355,13 @@ export default function Home({navigation, route}: any) {
               fontSize: 20,
               fontWeight: 'bold',
               textAlign: 'left',
-              marginTop: 20,
               color: 'black',
             }}>
             Rekomendasi Untukmu
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} />
+              <DonationCard data={data} key={index} navigation={navigation}size='small' />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -381,7 +380,7 @@ export default function Home({navigation, route}: any) {
               }}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 12,
                   fontWeight: 'bold',
                   textAlign: 'center',
                 }}>
@@ -398,14 +397,13 @@ export default function Home({navigation, route}: any) {
               fontSize: 20,
               fontWeight: 'bold',
               textAlign: 'left',
-              marginTop: 20,
               color: 'black',
             }}>
             Wakaf & Zakat
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} />
+              <DonationCard data={data} key={index} navigation={navigation} size='small' />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -424,7 +422,7 @@ export default function Home({navigation, route}: any) {
               }}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 12,
                   fontWeight: 'bold',
                   textAlign: 'center',
                 }}>
