@@ -4,3 +4,8 @@ export const formatThousand = (input: string) => {
     // Format with thousand separator
     return numericValue === '' ? '' : new Intl.NumberFormat('en-US').format(Number(numericValue));
 };
+
+export function multiReplace(str: string, replacements: { [key: string]: string }) {
+    return Object.entries(replacements).reduce((acc, [key, value]) => 
+      acc.replace(new RegExp(key, "g"), value), str);
+  }

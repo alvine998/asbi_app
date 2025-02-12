@@ -25,6 +25,7 @@ import ConfirmCreateDonation from './src/screens/donation/create/ConfirmCreateDo
 import ListDoa from './src/screens/doa/ListDoa';
 import PrayTime from './src/screens/pray-time/PrayTime';
 import {useLocationStore} from './src/store/locationStore';
+import EditProfile from './src/screens/account/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,9 @@ const RootStack = () => {
         name="ConfirmCreateDonation"
         component={ConfirmCreateDonation}
       />
+
+      {/* Account Profile */}
+      <Stack.Screen name="EditProfile" component={EditProfile} />
 
       {/* Quran */}
       <Stack.Screen name="ListSurah" component={Surah} />

@@ -22,6 +22,8 @@ import BannerSlide from '../components/BannerSlide';
 import {banners} from '../data/dummyBanner';
 import Footer from '../components/Footer';
 import {datas} from '../data/dummyDonation';
+import { ListProvince } from '../data/province';
+import { multiReplace } from '../lib/utils';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
@@ -29,6 +31,8 @@ export default function Home({navigation, route}: any) {
   const {onRefresh, refreshing} = useOnRefresh(() => {
     // console.log('refreshing');
   });
+
+  const replacements = {"Kepulauan": "Kep", "Sumatera": "Sum", "Sulawesi": "Sul", "Kalimantan": "Kal", "Nusa Tenggara Timur": "NTT", "Nusa Tenggara Barat": "NTB", "Papua": "Pap"}
 
   const wishes = [
     {
@@ -147,7 +151,7 @@ export default function Home({navigation, route}: any) {
             backgroundColor: 'white',
             elevation: 3,
             margin: 10,
-            marginTop: 20,
+            marginTop: 10,
           }}>
           <View
             style={{
@@ -158,6 +162,7 @@ export default function Home({navigation, route}: any) {
               top: 0,
               right: 0,
               borderBottomLeftRadius: 50,
+              zIndex: -1,
             }}></View>
           <View
             style={{
@@ -168,25 +173,77 @@ export default function Home({navigation, route}: any) {
               bottom: 0,
               left: 0,
               borderTopRightRadius: 50,
+              zIndex: -1,
             }}></View>
-          {/* <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              marginTop: 20,
-              color: 'black',
-            }}>
-            Selamat Datang di Donasiqu
-          </Text> */}
           <Image
             source={{
               uri: 'https://res.cloudinary.com/dzrthkexn/image/upload/v1738692091/donasiqu/fvmjvx6hmh4p33xdyyvj.png',
             }}
             width={400}
             height={300}
-            style={{width: 350, height: 250}}
+            style={{width: 350, height: 250, marginTop: -70, zIndex: 5}}
           />
+          <View style={{position: 'absolute', bottom: 40, left: 30}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+              Hai, Jonas
+            </Text>
+            <Text style={{fontSize: 12, color: 'gray', marginTop: 0}}>
+              Selamat datang di DonasiQu
+            </Text>
+          </View>
+
+          <View style={{position: 'absolute', bottom: 40, right: 30}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+              4x
+            </Text>
+            <Text style={{fontSize: 12, color: 'gray', marginTop: 0}}>
+              Donasimu
+            </Text>
+          </View>
+        </View>
+
+        {/* Balance */}
+        <View style={{paddingHorizontal: 20, marginTop: -45}}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              elevation: 3,
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
+              width: '100%',
+              padding: 10,
+              borderRadius: 10,
+              paddingHorizontal: 20,
+            }}>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: 130,
+              }}>
+              <FontAwesome5Icon name="money-check" size={18} color={'green'} />
+              <View>
+                <Text>Saldo</Text>
+                <Text style={{fontWeight: '800'}}>Rp 1.000.000</Text>
+              </View>
+            </TouchableOpacity>
+            <View style={{height: '100%', borderRightWidth: 1}}></View>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: 130,
+              }}>
+              <FontAwesome5Icon name="wallet" size={20} color={'green'} />
+              <View>
+                <Text>Dompet</Text>
+                <Text style={{fontWeight: '800'}}>Rp 5.000.000</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Menu */}
@@ -196,26 +253,26 @@ export default function Home({navigation, route}: any) {
               justifyContent: 'space-between',
               alignItems: 'center',
               flexDirection: 'row',
-              marginTop: 20,
-              paddingHorizontal: 40,
+              marginTop: 10,
+              paddingHorizontal: 20,
             }}>
             <View
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 10,
               }}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListDonation')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="donate" size={30} color={'green'} />
+                <FontAwesome5Icon name="donate" size={20} color={'green'} />
                 <Text>Donasi</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListSurah')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="quran" size={30} color={'green'} />
+                <FontAwesome5Icon name="quran" size={20} color={'green'} />
                 <Text>Qur'an</Text>
               </TouchableOpacity>
             </View>
@@ -225,7 +282,7 @@ export default function Home({navigation, route}: any) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 10,
                 marginLeft: 10,
               }}>
               <TouchableOpacity
@@ -233,7 +290,7 @@ export default function Home({navigation, route}: any) {
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon
                   name="praying-hands"
-                  size={30}
+                  size={20}
                   color={'green'}
                 />
                 <Text>Infaq</Text>
@@ -242,7 +299,7 @@ export default function Home({navigation, route}: any) {
               <TouchableOpacity
                 onPress={() => navigation.navigate('ListDoa')}
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="pray" size={30} color={'green'} />
+                <FontAwesome5Icon name="pray" size={20} color={'green'} />
                 <Text>Do'a</Text>
               </TouchableOpacity>
             </View>
@@ -252,7 +309,7 @@ export default function Home({navigation, route}: any) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 10,
                 marginLeft: 10,
               }}>
               <TouchableOpacity
@@ -260,7 +317,7 @@ export default function Home({navigation, route}: any) {
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 <FontAwesome5Icon
                   name="hand-holding-heart"
-                  size={30}
+                  size={20}
                   color={'green'}
                 />
                 <Text>Sedekah</Text>
@@ -268,7 +325,7 @@ export default function Home({navigation, route}: any) {
 
               <TouchableOpacity
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="child" size={30} color={'green'} />
+                <FontAwesome5Icon name="child" size={20} color={'green'} />
                 <Text>Harapan</Text>
               </TouchableOpacity>
             </View>
@@ -278,14 +335,14 @@ export default function Home({navigation, route}: any) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                gap: 20,
+                gap: 10,
               }}>
               <TouchableOpacity
                 onPress={() =>
                   ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
                 }
                 style={{justifyContent: 'center', alignItems: 'center'}}>
-                <FontAwesome5Icon name="handshake" size={30} color={'green'} />
+                <FontAwesome5Icon name="handshake" size={20} color={'green'} />
                 <Text>Zakat</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -294,20 +351,46 @@ export default function Home({navigation, route}: any) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome5Icon name="mosque" size={30} color={'green'} />
-                <Text>Waktu Shalat</Text>
+                <FontAwesome5Icon name="mosque" size={20} color={'green'} />
+                <Text>Wkt Shalat</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
+                }
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <FontAwesome5Icon name="cube" size={20} color={'green'} />
+                <Text>Umroh</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PrayTime')}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5Icon name="bars" size={20} color={'green'} />
+                <Text>Lainnya</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
 
         {/* Banner */}
-        <View style={{paddingVertical: 20}}>
+        <View style={{paddingVertical: 10}}>
           <BannerSlide data={banners} />
         </View>
 
         {/* Donasi Terkini */}
-        <View style={{padding: 20}}>
+        <View style={{paddingHorizontal: 10}}>
           <Text
             style={{
               fontSize: 20,
@@ -319,7 +402,12 @@ export default function Home({navigation, route}: any) {
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} size='small' />
+              <DonationCard
+                data={data}
+                key={index}
+                navigation={navigation}
+                size="small"
+              />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -349,7 +437,7 @@ export default function Home({navigation, route}: any) {
         </View>
 
         {/* Rekomendasi Untukmu */}
-        <View style={{padding: 20}}>
+        <View style={{paddingHorizontal: 10, paddingTop: 10}}>
           <Text
             style={{
               fontSize: 20,
@@ -361,7 +449,12 @@ export default function Home({navigation, route}: any) {
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation}size='small' />
+              <DonationCard
+                data={data}
+                key={index}
+                navigation={navigation}
+                size="small"
+              />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -390,8 +483,8 @@ export default function Home({navigation, route}: any) {
           </ScrollView>
         </View>
 
-        {/* Wakaf & Zakat */}
-        <View style={{padding: 20}}>
+        {/* List Yayasan */}
+        <View style={{paddingHorizontal: 10, paddingTop: 10}}>
           <Text
             style={{
               fontSize: 20,
@@ -399,11 +492,44 @@ export default function Home({navigation, route}: any) {
               textAlign: 'left',
               color: 'black',
             }}>
-            Wakaf & Zakat
+            Cari Yayasan
           </Text>
           <ScrollView horizontal>
             {datas?.map((data, index) => (
-              <DonationCard data={data} key={index} navigation={navigation} size='small' />
+              <TouchableOpacity
+                key={index}
+                style={{
+                  borderWidth: 1,
+                  width: 80,
+                  height: 80,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 10,
+                }}></TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Infaq & Sedekah */}
+        <View style={{paddingHorizontal: 10, paddingTop: 0}}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              textAlign: 'left',
+              color: 'black',
+            }}>
+            Infaq & Sedekah
+          </Text>
+          <ScrollView horizontal>
+            {datas?.map((data, index) => (
+              <DonationCard
+                data={data}
+                key={index}
+                navigation={navigation}
+                size="small"
+              />
             ))}
             <TouchableOpacity
               onPress={() => {
@@ -432,8 +558,44 @@ export default function Home({navigation, route}: any) {
           </ScrollView>
         </View>
 
+        {/* Daerah Pilihan Provinsi */}
+        <View style={{paddingHorizontal: 10, paddingTop: 10}}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              textAlign: 'left',
+              color: 'black',
+            }}>
+            Daerah Pilihan
+          </Text>
+          <ScrollView horizontal>
+            {ListProvince?.map((data, index) => (
+              <TouchableOpacity
+                key={index}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    width: 80,
+                    height: 80,
+                    borderRadius: 80,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginHorizontal: 10,
+                  }}></View>
+                <Text>{multiReplace(data?.name, replacements)}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
         {/* Harapan Kami */}
-        <View style={{padding: 20}}>
+        <View style={{paddingHorizontal: 10, paddingTop: 10}}>
           <Text
             style={{
               fontSize: 20,

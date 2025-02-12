@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 interface Props {
   reach: number;
   target: number;
-  size?: "small" | "large";
+  size?: 'small' | 'large';
 }
 export const ProgressBar = ({reach, target, size = 'large'}: Props) => {
   // Calculate the percentage progress
@@ -11,14 +11,15 @@ export const ProgressBar = ({reach, target, size = 'large'}: Props) => {
 
   const styles = StyleSheet.create({
     container: {
-      margin: 10,
+      marginTop: 10,
+      marginHorizontal: 10,
     },
     text: {
-      fontSize: size == "large" ? 16 : 12,
+      fontSize: size == 'large' ? 16 : 12,
       marginBottom: 10,
     },
     progressBar: {
-      height: 20,
+      height: size == 'large' ? 20 : 10,
       backgroundColor: '#e0e0e0',
       borderRadius: 10,
       overflow: 'hidden',
@@ -29,21 +30,24 @@ export const ProgressBar = ({reach, target, size = 'large'}: Props) => {
       borderRadius: 10,
     },
     percentage: {
-      marginTop: 10,
-      fontSize: size == "large" ? 14 : 12,
+      marginTop: size == 'large' ? 10 : 5,
+      fontSize: size == 'large' ? 14 : 12,
       color: '#333',
     },
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Progress: {`${reach} / ${target}`}</Text>
+      <Text style={styles.text}>Target: {`${target}`}</Text>
       <View style={styles.progressBar}>
         <View style={[styles.progress, {width: `${progressPercentage}%`}]} />
       </View>
-      <Text style={styles.percentage}>{`${progressPercentage.toFixed(
-        0,
-      )}%`}</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style={styles.percentage}>{`${progressPercentage.toFixed(
+          0,
+        )}%`}</Text>
+        <Text style={styles.percentage}>{reach}</Text>
+      </View>
     </View>
   );
 };

@@ -4,17 +4,22 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import React from 'react';
 import {useOnRefresh} from '../../hooks/useRefresh';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 
-export default function Account() {
+export default function Account({navigation}: any) {
   const {onRefresh, refreshing} = useOnRefresh(() => {
     console.log('refreshing');
   });
 
   const tabs = [
+    {
+      name: 'Poin',
+      href: 'point',
+    },
     {
       name: 'Profil Penggalang Dana',
       href: 'profile',
@@ -33,51 +38,69 @@ export default function Account() {
     },
     {
       name: 'Keluar',
-      href: 'logout',
+      href: 'Login',
     },
   ];
   return (
     <View style={{backgroundColor: 'white', height: '100%', width: '100%'}}>
+      <View
+        style={{
+          padding: 20,
+          flexDirection: 'row',
+          gap: 30,
+          backgroundColor: 'green',
+          zIndex: 1,
+          // alignItems: 'center',
+        }}>
+        <View
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 60,
+            backgroundColor: '#dfdfdf',
+          }}></View>
+        <View>
+          <Text style={{color: 'white', fontSize: 20}}>Johan Andreas</Text>
+          <Text style={{color: 'white', fontSize: 14}}>
+            johanandreas@gmail.com
+          </Text>
+          <View style={{marginTop: 20}}>
+            <Button
+              title="Edit Profil"
+              onPress={() => {
+                navigation.navigate('EditProfile');
+              }}
+            />
+          </View>
+        </View>
+      </View>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <TouchableOpacity
+        <View
           style={{
-            margin: 20,
-            padding: 20,
-            borderWidth: 1,
-            borderRadius: 10,
-            flexDirection: 'row',
-            gap: 30,
-            // alignItems: 'center',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            backgroundColor: 'white',
+            width: '100%',
+            height: '100%',
+            zIndex: 2,
           }}>
-          <View
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 100,
-              backgroundColor: '#808080',
-            }}></View>
-          <View>
-            <Text style={{fontSize: 20}}>Johan Andreas</Text>
-            <Text style={{fontSize: 14}}>johanandreas@gmail.com</Text>
-            <Text style={{fontSize: 20, marginTop: 20}}>Poin: 20</Text>
-          </View>
-        </TouchableOpacity>
-
-        <View>
           {tabs.map((tab, index) => (
             <TouchableOpacity
               key={index}
+              onPress={() => {
+                navigation.navigate(tab.href);
+              }}
               style={{
                 marginHorizontal: 10,
                 // marginVertical: 10,
-                marginTop: tab.href === 'logout' ? 20 : 0,
+                marginTop: tab.href === 'Login' ? 20 : 0,
                 padding: 10,
                 borderBottomWidth: 1,
                 borderRadius: 10,
-                backgroundColor: tab.href === 'logout' ? 'red' : 'white',
+                backgroundColor: tab.href === 'Login' ? 'red' : 'white',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -85,15 +108,25 @@ export default function Account() {
               <Text
                 style={{
                   fontSize: 15,
-                  color: tab.href === 'logout' ? 'white' : 'black',
+                  color: tab.href === 'Login' ? 'white' : 'black',
                 }}>
                 {tab.name}
               </Text>
-              <IconFA5
-                name="chevron-right"
-                size={15}
-                color={tab.href === 'logout' ? 'white' : 'black'}
-              />
+              {tab.href === 'point' ? (
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'black',
+                  }}>
+                  100
+                </Text>
+              ) : (
+                <IconFA5
+                  name="chevron-right"
+                  size={15}
+                  color={tab.href === 'logout' ? 'white' : 'black'}
+                />
+              )}
             </TouchableOpacity>
           ))}
         </View>

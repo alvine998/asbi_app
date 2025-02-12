@@ -17,9 +17,8 @@ export default function Login({navigation}: any) {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 200,
       }}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{paddingVertical: 200}}>
         <Image
           source={require('../../assets/images/logo.jpeg')}
           style={{width: 250, height: 150}}
@@ -65,6 +64,9 @@ export default function Login({navigation}: any) {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Otp');
+          }}
           style={{
             width: '100%',
             height: 40,

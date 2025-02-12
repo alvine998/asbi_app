@@ -26,7 +26,7 @@ export default function DonationCard({
           });
         }}
         style={{
-          margin: 10,
+          margin: 5,
           borderWidth: 1,
           borderRadius: 10,
           paddingHorizontal: size == 'large' ? 10 : 5,
@@ -38,9 +38,8 @@ export default function DonationCard({
           <Image
             source={{uri: String(data.thumbnail)}}
             style={{
-              width: size == 'large' ? 250 : 100,
-              height: size == 'large' ? 250 : 100,
-              resizeMode: 'contain',
+              width: size == 'large' ? 250 : 120,
+              height: size == 'large' ? 250 : 120,
             }}
           />
         </View>

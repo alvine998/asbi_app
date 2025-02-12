@@ -4,7 +4,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function Footer() {
   return (
-    <View style={{padding: 20}}>
+    <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
       <View
         style={{
           flexDirection: 'row',
@@ -13,7 +13,7 @@ export default function Footer() {
           gap: 5,
         }}>
         <TouchableOpacity>
-          <Text style={{color: '#808080', fontSize: 12}}>Tentang Donasiqu</Text>
+          <Text style={{color: '#808080', fontSize: 12}}>Tentang DonasiQu</Text>
         </TouchableOpacity>
         <Text style={{color: '#808080', fontSize: 12}}>|</Text>
         <TouchableOpacity>
@@ -34,7 +34,7 @@ export default function Footer() {
           justifyContent: 'center',
           alignItems: 'center',
           gap: 20,
-          marginTop: 20,
+          marginTop: 10,
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -73,10 +73,10 @@ export default function Footer() {
         style={{
           fontSize: 12,
           color: '#808080',
-          marginTop: 20,
+          marginTop: 10,
           textAlign: 'center',
         }}>
-        Copyright © {new Date().getFullYear()} Donasiqu. All Rights Reserved
+        Copyright © {new Date().getFullYear()} DonasiQu. All Rights Reserved
       </Text>
     </View>
   );

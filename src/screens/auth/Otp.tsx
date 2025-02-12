@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 
-export default function Otp() {
+export default function Otp({navigation}: any) {
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const inputRefs: any = useRef([]);
 
@@ -36,12 +36,14 @@ export default function Otp() {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: 50,
       }}>
       <Text style={{fontSize: 20, fontWeight: 'bold'}}>
         Verifikasi Kode OTP
       </Text>
       <Text style={{marginTop: 10}}>
-        Silahkan masukkan 6 digit kode OTP yang telah kami kirimkan melalui email
+        Silahkan masukkan 6 digit kode OTP yang telah kami kirimkan melalui
+        email
       </Text>
       <View style={styles.container}>
         {otp.map((digit, index) => (
@@ -59,6 +61,9 @@ export default function Otp() {
       </View>
 
       <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
         style={{
           width: '100%',
           height: 40,
@@ -67,7 +72,6 @@ export default function Otp() {
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: 20,
-
         }}>
         <Text style={{color: 'white'}}>Lanjutkan</Text>
       </TouchableOpacity>

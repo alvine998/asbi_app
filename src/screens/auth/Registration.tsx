@@ -7,9 +7,13 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 
-export default function Registration() {
+export default function Registration({navigation}: any) {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [date, setDate] = useState<any>(new Date());
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleCheckboxPress = () => {
     setIsChecked(!isChecked);
@@ -95,6 +99,37 @@ export default function Registration() {
             style={{color: 'black'}}
           />
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            setOpen(true);
+          }}
+          style={{
+            width: '100%',
+            height: 40,
+            borderWidth: 1,
+            borderRadius: 10,
+            paddingLeft: 10,
+            flexDirection: 'column',
+            gap: 5,
+            alignItems: 'baseline',
+            justifyContent: 'center',
+            marginTop: 10,
+          }}>
+          <Text style={{color: 'black'}}>{moment(date).format("DD-MM-YYYY")}</Text>
+        </TouchableOpacity>
+        <DatePicker
+          modal
+          open={open}
+          date={date}
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+          mode="date"
+        />
         <View
           style={{
             width: '100%',
@@ -138,7 +173,7 @@ export default function Registration() {
           <Text style={{color: 'white'}}>Daftar Sekarang</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{marginTop: 20}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{marginTop: 20}}>
           <Text style={{color: '#60af29', fontSize: 14, textAlign: 'center'}}>
             Sudah memiliki akun? Login disini
           </Text>
