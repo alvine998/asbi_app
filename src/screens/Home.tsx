@@ -22,8 +22,8 @@ import BannerSlide from '../components/BannerSlide';
 import {banners} from '../data/dummyBanner';
 import Footer from '../components/Footer';
 import {datas} from '../data/dummyDonation';
-import { ListProvince } from '../data/province';
-import { multiReplace } from '../lib/utils';
+import {ListProvince} from '../data/province';
+import {multiReplace} from '../lib/utils';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
@@ -32,7 +32,15 @@ export default function Home({navigation, route}: any) {
     // console.log('refreshing');
   });
 
-  const replacements = {"Kepulauan": "Kep", "Sumatera": "Sum", "Sulawesi": "Sul", "Kalimantan": "Kal", "Nusa Tenggara Timur": "NTT", "Nusa Tenggara Barat": "NTB", "Papua": "Pap"}
+  const replacements = {
+    Kepulauan: 'Kep',
+    Sumatera: 'Sum',
+    Sulawesi: 'Sul',
+    Kalimantan: 'Kal',
+    'Nusa Tenggara Timur': 'NTT',
+    'Nusa Tenggara Barat': 'NTB',
+    Papua: 'Pap',
+  };
 
   const wishes = [
     {
@@ -194,7 +202,7 @@ export default function Home({navigation, route}: any) {
 
           <View style={{position: 'absolute', bottom: 40, right: 30}}>
             <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              4x
+              0x
             </Text>
             <Text style={{fontSize: 12, color: 'gray', marginTop: 0}}>
               Donasimu
@@ -217,6 +225,9 @@ export default function Home({navigation, route}: any) {
               paddingHorizontal: 20,
             }}>
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Balance');
+              }}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -231,6 +242,9 @@ export default function Home({navigation, route}: any) {
             </TouchableOpacity>
             <View style={{height: '100%', borderRightWidth: 1}}></View>
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Wallet');
+              }}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -372,7 +386,9 @@ export default function Home({navigation, route}: any) {
                 <Text>Umroh</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate('PrayTime')}
+                onPress={() =>
+                  ToastAndroid.show('Coming Soon!', ToastAndroid.SHORT)
+                }
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',

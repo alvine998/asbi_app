@@ -26,6 +26,8 @@ import ListDoa from './src/screens/doa/ListDoa';
 import PrayTime from './src/screens/pray-time/PrayTime';
 import {useLocationStore} from './src/store/locationStore';
 import EditProfile from './src/screens/account/EditProfile';
+import Balance from './src/screens/balance/Balance';
+import Wallet from './src/screens/wallet/Wallet';
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +76,11 @@ const RootStack = () => {
 
       {/* Pray Time */}
       <Stack.Screen name="PrayTime" component={PrayTime} />
+
+      {/* Balance */}
+      <Stack.Screen name="Balance" component={Balance} />
+      {/* Wallet */}
+      <Stack.Screen name="Wallet" component={Wallet} />
 
       <Stack.Screen
         name="PaymentConfirmation"
