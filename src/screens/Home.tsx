@@ -23,13 +23,17 @@ import {banners} from '../data/dummyBanner';
 import Footer from '../components/Footer';
 import {datas} from '../data/dummyDonation';
 import {ListProvince} from '../data/province';
-import {multiReplace} from '../lib/utils';
+import {formatThousand, multiReplace} from '../lib/utils';
+import {useAmountStore} from '../store/useAmountStore';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
+  const {balance, wallet, setBalance, setWallet} = useAmountStore();
 
   const {onRefresh, refreshing} = useOnRefresh(() => {
     // console.log('refreshing');
+    setWallet(wallet);
+    setBalance(balance);
   });
 
   const replacements = {
@@ -237,7 +241,9 @@ export default function Home({navigation, route}: any) {
               <FontAwesome5Icon name="money-check" size={18} color={'green'} />
               <View>
                 <Text>Saldo</Text>
-                <Text style={{fontWeight: '800'}}>Rp 1.000.000</Text>
+                <Text style={{fontWeight: '800'}}>
+                  Rp {formatThousand(balance?.toString())}
+                </Text>
               </View>
             </TouchableOpacity>
             <View style={{height: '100%', borderRightWidth: 1}}></View>
@@ -254,7 +260,9 @@ export default function Home({navigation, route}: any) {
               <FontAwesome5Icon name="wallet" size={20} color={'green'} />
               <View>
                 <Text>Dompet</Text>
-                <Text style={{fontWeight: '800'}}>Rp 5.000.000</Text>
+                <Text style={{fontWeight: '800'}}>
+                  Rp {formatThousand(wallet?.toString())}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -1,6 +1,15 @@
-import {View, Text, ScrollView, FlatList, Animated} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  Animated,
+  RefreshControl,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import BackButton from '../../components/BackButton';
+import {formatThousand} from '../../lib/utils';
+import {useAmountStore} from '../../store/useAmountStore';
 
 const transactions = [
   {
@@ -68,12 +77,29 @@ const transactions = [
   },
 ];
 
-export default function Balance({navigation}: any) {
+export default function Balance({navigation, route}: any) {
   const [fontSize, setFontSize] = useState(new Animated.Value(34));
+  const [totalBalance, setTotalBalance] = useState<number>(0);
+  const {balance} = useAmountStore();
   const handleScroll = (event: any) => {
     const scrollY = event.nativeEvent.contentOffset.y;
     const newSize = Math.max(24, 34 - scrollY / 10); // Min size: 24, Max size: 34
     setFontSize(new Animated.Value(newSize));
+  };
+  useEffect(() => {
+    setTotalBalance(balance);
+  }, []);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // Simulating a data fetch with a timeout
+    setTimeout(() => {
+      setTotalBalance(balance);
+      setRefreshing(false);
+    }, 2000); // Simulated network request delay
   };
 
   return (
@@ -97,7 +123,7 @@ export default function Balance({navigation}: any) {
           textAlign: 'center',
           marginTop: 10,
         }}>
-        Rp 1.000.000,-
+        Rp {formatThousand(balance?.toString())},-
       </Animated.Text>
       <View
         style={{
@@ -119,6 +145,9 @@ export default function Balance({navigation}: any) {
         </Text>
 
         <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           data={transactions}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
