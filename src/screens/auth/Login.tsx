@@ -5,10 +5,40 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
+import {CONFIG} from '../../config';
+import {handleChange} from '../../lib/utils';
 
 export default function Login({navigation}: any) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [payload, setPayload] = useState<any>();
+
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      const payloads = {
+        ...payload,
+      };
+      const result = await axios.post(
+        CONFIG.BASE_URL_API + '/users/login',
+        payloads,
+        {
+          headers: {'bearer-token': 'donasiquapi'},
+        },
+      );
+      setLoading(false);
+      Alert.alert('Login Berhasil');
+      navigation.navigate('Otp');
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error.response);
+      setErrorMessage(error?.response.data.error_message || error?.response.data.message);
+    }
+  };
   return (
     <View
       style={{
@@ -35,6 +65,9 @@ export default function Login({navigation}: any) {
             placeholder="Email / No Telepon"
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => {
+              handleChange(e, 'identity', payload, setPayload);
+            }}
           />
         </View>
         <View
@@ -51,6 +84,9 @@ export default function Login({navigation}: any) {
             secureTextEntry
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => {
+              handleChange(e, 'password', payload, setPayload);
+            }}
           />
         </View>
         <View
@@ -64,8 +100,9 @@ export default function Login({navigation}: any) {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
+          disabled={loading}
           onPress={() => {
-            navigation.navigate('Otp');
+            onSubmit();
           }}
           style={{
             width: '100%',
@@ -76,8 +113,18 @@ export default function Login({navigation}: any) {
             alignItems: 'center',
             marginTop: 20,
           }}>
-          <Text style={{color: 'white'}}>Masuk</Text>
+          <Text style={{color: 'white'}}>
+            {loading ? 'Memproses...' : 'Masuk'}
+          </Text>
         </TouchableOpacity>
+        {errorMessage !== '' ? (
+          <Text style={{color: 'red', textAlign: 'center', marginTop: 5}}>
+            {errorMessage}
+          </Text>
+        ) : (
+          <></>
+        )}
+
         <TouchableOpacity
           style={{marginTop: 20}}
           onPress={() => {

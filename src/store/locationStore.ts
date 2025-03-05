@@ -16,9 +16,15 @@ interface LocationStore {
 }
 
 const getAddressFromCoordinates = async (latitude: any, longitude: any) => {
+    console.log(latitude, longitude);
     try {
         const response = await axios.get(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+            {
+                headers: {
+                    "User-Agent": "donasiqu/1.0 (donasiqu.office@email.com)",
+                },
+            }
         );
 
         if (response.data && response.data.display_name) {

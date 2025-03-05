@@ -5,18 +5,54 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import axios from 'axios';
+import {CONFIG} from '../../config';
+import {handleChange} from '../../lib/utils';
 
 export default function Registration({navigation}: any) {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [date, setDate] = useState<any>(new Date());
   const [open, setOpen] = useState<boolean>(false);
+  const [payload, setPayload] = useState<any>();
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCheckboxPress = () => {
     setIsChecked(!isChecked);
+  };
+
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      const payloads = {
+        ...payload,
+        dob: date,
+        agreement: isChecked,
+        status: 1,
+        role: 'donor',
+      };
+      const result = await axios.post(
+        CONFIG.BASE_URL_API + '/users',
+        payloads,
+        {
+          headers: {'bearer-token': 'donasiquapi'},
+        },
+      );
+      setLoading(false);
+      Alert.alert('Pendaftaran Berhasil');
+      navigation.navigate('Login');
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error.response);
+      setErrorMessage(
+        error?.response.data.error_message || error?.response.data.message,
+      );
+    }
   };
   return (
     <View
@@ -26,7 +62,7 @@ export default function Registration({navigation}: any) {
         width: '100%',
         justifyContent: 'center',
         paddingHorizontal: 40,
-        paddingVertical: 100,
+        paddingVertical: 50,
       }}>
       <Text
         style={{
@@ -51,6 +87,7 @@ export default function Registration({navigation}: any) {
             placeholder="Nama"
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => handleChange(e, 'name', payload, setPayload)}
           />
         </View>
         <View
@@ -67,6 +104,7 @@ export default function Registration({navigation}: any) {
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
             keyboardType="phone-pad"
+            onChangeText={e => handleChange(e, 'phone', payload, setPayload)}
           />
         </View>
         <View
@@ -82,6 +120,7 @@ export default function Registration({navigation}: any) {
             placeholder="Email"
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => handleChange(e, 'email', payload, setPayload)}
           />
         </View>
         <View
@@ -94,9 +133,10 @@ export default function Registration({navigation}: any) {
             marginTop: 10,
           }}>
           <TextInput
-            placeholder="Tanggal Lahir"
+            placeholder="Tempat Lahir"
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => handleChange(e, 'pob', payload, setPayload)}
           />
         </View>
         <TouchableOpacity
@@ -115,7 +155,9 @@ export default function Registration({navigation}: any) {
             justifyContent: 'center',
             marginTop: 10,
           }}>
-          <Text style={{color: 'black'}}>{moment(date).format("DD-MM-YYYY")}</Text>
+          <Text style={{color: 'black'}}>
+            {moment(date).format('DD-MM-YYYY')}
+          </Text>
         </TouchableOpacity>
         <DatePicker
           modal
@@ -144,6 +186,7 @@ export default function Registration({navigation}: any) {
             placeholder="Password"
             placeholderTextColor={'gray'}
             style={{color: 'black'}}
+            onChangeText={e => handleChange(e, 'password', payload, setPayload)}
           />
         </View>
 
@@ -161,6 +204,8 @@ export default function Registration({navigation}: any) {
         </View>
 
         <TouchableOpacity
+          onPress={onSubmit}
+          disabled={loading}
           style={{
             width: '100%',
             height: 40,
@@ -170,10 +215,21 @@ export default function Registration({navigation}: any) {
             alignItems: 'center',
             marginTop: 20,
           }}>
-          <Text style={{color: 'white'}}>Daftar Sekarang</Text>
+          <Text style={{color: 'white'}}>
+            {loading ? 'Mendaftarkan...' : 'Daftar Sekarang'}
+          </Text>
         </TouchableOpacity>
+        {errorMessage !== '' ? (
+          <Text style={{color: 'red', textAlign: 'center', marginTop: 5}}>
+            {errorMessage}
+          </Text>
+        ) : (
+          <></>
+        )}
 
-        <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{marginTop: 20}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          style={{marginTop: 20}}>
           <Text style={{color: '#60af29', fontSize: 14, textAlign: 'center'}}>
             Sudah memiliki akun? Login disini
           </Text>

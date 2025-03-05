@@ -6,6 +6,10 @@ export const formatThousand = (input: string) => {
 };
 
 export function multiReplace(str: string, replacements: { [key: string]: string }) {
-    return Object.entries(replacements).reduce((acc, [key, value]) => 
-      acc.replace(new RegExp(key, "g"), value), str);
-  }
+    return Object.entries(replacements).reduce((acc, [key, value]) =>
+        acc.replace(new RegExp(key, "g"), value), str);
+}
+
+export const handleChange = (e: any, name: string, payload: any, setPayload: any) => {
+    setPayload({ ...payload, [name]: e });
+};
