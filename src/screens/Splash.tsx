@@ -5,7 +5,7 @@ export default function Splash({navigation}: any) {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.navigate('Login');
     }, 1500);
   },[])
   return (

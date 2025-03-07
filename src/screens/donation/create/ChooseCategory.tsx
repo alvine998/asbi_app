@@ -29,7 +29,7 @@ export default function ChooseCategory({navigation}: any) {
                 })
               }
               style={{
-                margin: 10,
+                margin: 5,
                 borderWidth: 1,
                 borderRadius: 10,
                 padding: 10,

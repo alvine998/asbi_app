@@ -25,10 +25,13 @@ import {datas} from '../data/dummyDonation';
 import {ListProvince} from '../data/province';
 import {formatThousand, multiReplace} from '../lib/utils';
 import {useAmountStore} from '../store/useAmountStore';
+import useUserStore from '../store/useUserStore';
+import {Banners2} from '../data/dummyBanner2';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
   const {balance, wallet, setBalance, setWallet} = useAmountStore();
+  const {user} = useUserStore();
 
   const {onRefresh, refreshing} = useOnRefresh(() => {
     // console.log('refreshing');
@@ -63,6 +66,11 @@ export default function Home({navigation, route}: any) {
       from: 'Iker Doe',
     },
   ];
+
+  useEffect(() => {
+    setWallet(user?.wallet || 0);
+    setBalance(user?.balance || 0);
+  }, []);
 
   // useEffect(() => {
   //   // Create a handler to block the back button
@@ -197,7 +205,7 @@ export default function Home({navigation, route}: any) {
           />
           <View style={{position: 'absolute', bottom: 40, left: 30}}>
             <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              Hai, Jonas
+              Hai, {user?.name}
             </Text>
             <Text style={{fontSize: 12, color: 'gray', marginTop: 0}}>
               Selamat datang di DonasiQu
@@ -206,7 +214,7 @@ export default function Home({navigation, route}: any) {
 
           <View style={{position: 'absolute', bottom: 40, right: 30}}>
             <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              0x
+              {user?.donation || 0}x
             </Text>
             <Text style={{fontSize: 12, color: 'gray', marginTop: 0}}>
               Donasimu
@@ -611,11 +619,18 @@ export default function Home({navigation, route}: any) {
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginHorizontal: 10,
-                  }}></View>
+                  }}>
+                  {data.image ? <Image source={{uri: data.image}} style={{objectFit: 'cover', width:80, height:80, borderRadius:80}} /> : <></>}
+                </View>
                 <Text>{multiReplace(data?.name, replacements)}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
+        </View>
+
+        {/* Banner 2 */}
+        <View style={{paddingVertical: 10}}>
+          <BannerSlide data={Banners2} />
         </View>
 
         {/* Harapan Kami */}

@@ -6,10 +6,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
+import axios from 'axios';
+import {CONFIG} from '../../config';
+import useUserStore from '../../store/useUserStore';
 
 export default function Otp({navigation}: any) {
   const [otp, setOtp] = useState(new Array(6).fill(''));
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const inputRefs: any = useRef([]);
+  const {user} = useUserStore();
 
   const handleChange = (value: any, index: number) => {
     // Update OTP array
@@ -26,6 +32,34 @@ export default function Otp({navigation}: any) {
   const handleKeyPress = (e: any, index: number) => {
     if (e.nativeEvent.key === 'Backspace' && index > 0 && otp[index] === '') {
       inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      const payload = {
+        otp: otp.join(",").replaceAll(",", ""),
+        email: user?.email,
+        id: user?.id,
+      };
+      const result = await axios.post(
+        CONFIG.BASE_URL_API + `/users/verification/otp`,
+        payload,
+        {
+          headers: {
+            "bearer-token": "donasiquapi"
+          }
+        }
+      );
+      setLoading(false);
+      navigation.navigate('Home');
+    } catch (error: any) {
+      console.log(error);
+      setLoading(false);
+      setErrorMessage(
+        error?.response.data.error_message || error?.response.data.message,
+      );
     }
   };
   return (
@@ -59,11 +93,19 @@ export default function Otp({navigation}: any) {
           />
         ))}
       </View>
+      {errorMessage !== '' ? (
+        <Text style={{color: 'red', textAlign: 'center', marginTop: 5}}>
+          {errorMessage}
+        </Text>
+      ) : (
+        <></>
+      )}
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Home');
+          onSubmit();
         }}
+        disabled={loading}
         style={{
           width: '100%',
           height: 40,
@@ -73,7 +115,9 @@ export default function Otp({navigation}: any) {
           alignItems: 'center',
           marginTop: 20,
         }}>
-        <Text style={{color: 'white'}}>Lanjutkan</Text>
+        <Text style={{color: 'white'}}>
+          {loading ? 'Memproses...' : 'Lanjutkan'}
+        </Text>
       </TouchableOpacity>
     </View>
   );

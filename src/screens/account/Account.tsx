@@ -6,19 +6,27 @@ import {
   TouchableOpacity,
   Button,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useOnRefresh} from '../../hooks/useRefresh';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
+import useUserStore from '../../store/useUserStore';
 
 export default function Account({navigation}: any) {
+  const {user, logout} = useUserStore();
   const {onRefresh, refreshing} = useOnRefresh(() => {
     console.log('refreshing');
   });
 
+  useEffect(() => {
+    if (!user) {
+      navigation.navigate('Login');
+    }
+  }, []);
+
   const tabs = [
     {
-      name: 'Poin',
-      href: 'point',
+      name: 'Saldo',
+      href: '',
     },
     {
       name: 'Profil Penggalang Dana',
@@ -60,10 +68,8 @@ export default function Account({navigation}: any) {
             backgroundColor: '#dfdfdf',
           }}></View>
         <View>
-          <Text style={{color: 'white', fontSize: 20}}>Johan Andreas</Text>
-          <Text style={{color: 'white', fontSize: 14}}>
-            johanandreas@gmail.com
-          </Text>
+          <Text style={{color: 'white', fontSize: 20}}>{user?.name}</Text>
+          <Text style={{color: 'white', fontSize: 14}}>{user?.email}</Text>
           <View style={{marginTop: 20}}>
             <Button
               title="Edit Profil"
@@ -91,6 +97,7 @@ export default function Account({navigation}: any) {
             <TouchableOpacity
               key={index}
               onPress={() => {
+                logout();
                 navigation.navigate(tab.href);
               }}
               style={{
@@ -112,13 +119,13 @@ export default function Account({navigation}: any) {
                 }}>
                 {tab.name}
               </Text>
-              {tab.href === 'point' ? (
+              {tab.href === '' ? (
                 <Text
                   style={{
                     fontSize: 20,
                     color: 'black',
                   }}>
-                  100
+                  {user?.balance || 0}
                 </Text>
               ) : (
                 <IconFA5

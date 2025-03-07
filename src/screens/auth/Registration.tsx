@@ -7,12 +7,13 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import axios from 'axios';
 import {CONFIG} from '../../config';
 import {handleChange} from '../../lib/utils';
+import useUserStore from '../../store/useUserStore';
 
 export default function Registration({navigation}: any) {
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -21,6 +22,14 @@ export default function Registration({navigation}: any) {
   const [payload, setPayload] = useState<any>();
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const setUser = useUserStore(state => state.setUser);
+  const {user} = useUserStore();
+
+  useEffect(() => {
+    if (user) {
+      navigation.navigate('Home');
+    }
+  }, []);
 
   const handleCheckboxPress = () => {
     setIsChecked(!isChecked);
@@ -43,9 +52,19 @@ export default function Registration({navigation}: any) {
           headers: {'bearer-token': 'donasiquapi'},
         },
       );
+      if (result?.data) {
+        await axios.post(
+          CONFIG.BASE_URL_API + '/sendmail',
+          {to: result?.data?.items?.email},
+          {
+            headers: {'bearer-token': 'donasiquapi'},
+          },
+        );
+      }
       setLoading(false);
       Alert.alert('Pendaftaran Berhasil');
-      navigation.navigate('Login');
+      setUser(result?.data?.items);
+      navigation.navigate('Otp');
     } catch (error: any) {
       setLoading(false);
       console.log(error.response);

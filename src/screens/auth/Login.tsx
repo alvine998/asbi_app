@@ -7,15 +7,24 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {CONFIG} from '../../config';
 import {handleChange} from '../../lib/utils';
+import useUserStore from '../../store/useUserStore';
 
 export default function Login({navigation}: any) {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [payload, setPayload] = useState<any>();
+  const setUser = useUserStore((state: any) => state.setUser);
+  const {user} = useUserStore();
+
+  useEffect(()=>{
+    if(user){
+      navigation.navigate("Home")
+    }
+  },[])
 
   const onSubmit = async () => {
     setLoading(true);
@@ -30,13 +39,25 @@ export default function Login({navigation}: any) {
           headers: {'bearer-token': 'donasiquapi'},
         },
       );
+      if (result?.data) {
+        await axios.post(
+          CONFIG.BASE_URL_API + '/sendmail',
+          {to: result?.data?.user?.email},
+          {
+            headers: {'bearer-token': 'donasiquapi'},
+          },
+        );
+      }
+      setUser(result?.data?.user)
       setLoading(false);
       Alert.alert('Login Berhasil');
       navigation.navigate('Otp');
     } catch (error: any) {
       setLoading(false);
       console.log(error.response);
-      setErrorMessage(error?.response.data.error_message || error?.response.data.message);
+      setErrorMessage(
+        error?.response.data.error_message || error?.response.data.message,
+      );
     }
   };
   return (
