@@ -12,6 +12,7 @@ import axios from 'axios';
 import {CONFIG} from '../../config';
 import {handleChange} from '../../lib/utils';
 import useUserStore from '../../store/useUserStore';
+import useAuthStore from '../../store/useAuthStore';
 
 export default function Login({navigation}: any) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,12 +20,15 @@ export default function Login({navigation}: any) {
   const [payload, setPayload] = useState<any>();
   const setUser = useUserStore((state: any) => state.setUser);
   const {user} = useUserStore();
+  const {checkAuth, login, isLoggedIn} = useAuthStore();
 
-  useEffect(()=>{
-    if(user){
-      navigation.navigate("Home")
-    }
-  },[])
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    navigation.navigate('Home');
+  }, [isLoggedIn]);
 
   const onSubmit = async () => {
     setLoading(true);
@@ -48,9 +52,10 @@ export default function Login({navigation}: any) {
           },
         );
       }
-      setUser(result?.data?.user)
+      setUser(result?.data?.user);
       setLoading(false);
       Alert.alert('Login Berhasil');
+      login(result?.data?.user?.code);
       navigation.navigate('Otp');
     } catch (error: any) {
       setLoading(false);

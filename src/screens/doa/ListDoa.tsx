@@ -139,7 +139,7 @@ export default function ListDoa({navigation}: any) {
             flexDirection: 'row',
             gap: 5,
             alignItems: 'center',
-            marginVertical: 20
+            marginVertical: 20,
           }}>
           <FontAwesome5Icon name="search" color={'gray'} size={15} />
           <TextInput
@@ -164,18 +164,23 @@ export default function ListDoa({navigation}: any) {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          contentContainerStyle={{paddingBottom: 100}}>
+          contentContainerStyle={{
+            paddingBottom: 100,
+            borderWidth: 2,
+            borderRadius: 10,
+            padding: 5,
+          }}>
           {loading ? (
             <ActivityIndicator size="large" color="green" />
           ) : (
-            <>
+            <View style={{borderWidth: 1, borderRadius: 10}}>
               {doa?.map((item: IDoa, index: number) => (
                 <View
                   key={index}
                   style={{
                     marginVertical: 5,
-                    borderBottomWidth: 1,
-                    borderRadius: 10,
+                    // borderWidth: 1,
+                    // borderRadius: 10,
                     padding: 10,
                   }}>
                   <Text
@@ -205,7 +210,7 @@ export default function ListDoa({navigation}: any) {
                   </Text>
                 </View>
               ))}
-            </>
+            </View>
           )}
         </ScrollView>
       </View>

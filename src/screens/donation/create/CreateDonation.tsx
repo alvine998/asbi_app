@@ -11,6 +11,8 @@ import React, {useState} from 'react';
 import BackButton from '../../../components/BackButton';
 import {formatThousand} from '../../../lib/utils';
 import {launchImageLibrary} from 'react-native-image-picker';
+import axios from 'axios';
+import {CONFIG} from '../../../config';
 
 export default function CreateDonation({navigation, route}: any) {
   const [payload, setPayload] = useState<any>();
@@ -21,8 +23,32 @@ export default function CreateDonation({navigation, route}: any) {
       [name]: name == 'target' ? formatThousand(e) : e,
     });
   };
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const pickImage = () => {
+  const onUpload = async (image: any) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', image);
+      const result = await axios.post(
+        CONFIG.BASE_URL_API + '/upload',
+        formData,
+        {
+          headers: {
+            'bearer-token': 'donasiquapi',
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      setLoading(false);
+      return result.data.filePath;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const pickImage = async () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.didCancel) return;
       if (response.errorMessage) {
@@ -30,7 +56,8 @@ export default function CreateDonation({navigation, route}: any) {
         return;
       }
       if (response.assets && response.assets.length > 0) {
-        setPayload({...payload, image: response.assets[0]?.uri}); // Save the selected image
+        const result = onUpload(response.assets[0]);
+        setPayload({...payload, image: `${CONFIG.BASE_URL_API}${result}`});
       }
     });
   };

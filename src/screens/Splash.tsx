@@ -1,13 +1,19 @@
 import {View, Text, Image} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
+import useUserStore from '../store/useUserStore';
 
 export default function Splash({navigation}: any) {
-
+  const {user} = useUserStore();
+  console.log(user, 'user');
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Login');
+      if (user) {
+        navigation.navigate('Home');
+      } else {
+        navigation.navigate('Login');
+      }
     }, 1500);
-  },[])
+  }, []);
   return (
     <View
       style={{

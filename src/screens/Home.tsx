@@ -27,6 +27,7 @@ import {formatThousand, multiReplace} from '../lib/utils';
 import {useAmountStore} from '../store/useAmountStore';
 import useUserStore from '../store/useUserStore';
 import {Banners2} from '../data/dummyBanner2';
+import { dummyFoundation } from '../data/dummyFoundation';
 
 export default function Home({navigation, route}: any) {
   const {width, height} = Dimensions.get('window'); // or 'screen'
@@ -527,7 +528,7 @@ export default function Home({navigation, route}: any) {
             Cari Yayasan
           </Text>
           <ScrollView horizontal>
-            {datas?.map((data, index) => (
+            {dummyFoundation?.map((data, index) => (
               <TouchableOpacity
                 key={index}
                 style={{
@@ -538,7 +539,14 @@ export default function Home({navigation, route}: any) {
                   justifyContent: 'center',
                   alignItems: 'center',
                   margin: 10,
-                }}></TouchableOpacity>
+                }}>
+                <Image
+                  source={{uri: String(data)}}
+                  style={{width: 70, height: 70, borderRadius: 10}}
+                  width={70}
+                  height={70}
+                />
+                </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
