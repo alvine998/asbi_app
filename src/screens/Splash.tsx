@@ -4,13 +4,12 @@ import useUserStore from '../store/useUserStore';
 
 export default function Splash({navigation}: any) {
   const {user} = useUserStore();
-  console.log(user, 'user');
   useEffect(() => {
     setTimeout(() => {
-      if (user) {
-        navigation.navigate('Home');
-      } else {
+      if (!user) {
         navigation.navigate('Login');
+      } else {
+        navigation.navigate('Home');
       }
     }, 1500);
   }, []);

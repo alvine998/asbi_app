@@ -13,6 +13,7 @@ import {CONFIG} from '../../config';
 import {handleChange} from '../../lib/utils';
 import useUserStore from '../../store/useUserStore';
 import useAuthStore from '../../store/useAuthStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}: any) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -44,6 +45,7 @@ export default function Login({navigation}: any) {
         },
       );
       if (result?.data) {
+        await AsyncStorage.setItem('user', JSON.stringify(result?.data?.user))
         await axios.post(
           CONFIG.BASE_URL_API + '/sendmail',
           {to: result?.data?.user?.email},

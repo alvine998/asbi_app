@@ -10,18 +10,20 @@ import React, {useEffect} from 'react';
 import {useOnRefresh} from '../../hooks/useRefresh';
 import IconFA5 from 'react-native-vector-icons/FontAwesome5';
 import useUserStore from '../../store/useUserStore';
+import useAuthStore from '../../store/useAuthStore';
 
 export default function Account({navigation}: any) {
   const {user, logout} = useUserStore();
+  const {isLoggedIn} = useAuthStore();
   const {onRefresh, refreshing} = useOnRefresh(() => {
     console.log('refreshing');
   });
 
-  useEffect(() => {
-    if (!user) {
-      navigation.navigate('Login');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user && !isLoggedIn) {
+  //     navigation.navigate('Login');
+  //   }
+  // }, []);
 
   const tabs = [
     {
